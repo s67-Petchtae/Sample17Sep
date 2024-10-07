@@ -1,20 +1,67 @@
-int[][] grid = {{1, 2, 1, 3}, 
-                 {3, 4, 1, 2}, 
-                 {2, 1, 3, 4}};
-int rows = grid.length;  
-int cols = grid[0].length;
+int[][] grid = {{1, 2, 3, 4}, 
+                 {5, 6, 7, 8}, 
+                 {1, 2, 3, 4}, 
+                 {5, 6, 7, 8}};
 
-void draw_lines(int x, int y, int n) {
-    int i = 0;
-    while (i < n) {
-        line(x + i * 20, y, x + i * 20, y + 40);
-        i++;
+boolean[][] revealed;
+int cellSize = 100;
+int firstRow = -1, firstCol = -1;
+int secondRow = -1, secondCol = -1;
+boolean waiting = false;
+int showTimer = 0;
+
+void setup() {
+    size(400, 400); 
+    revealed = new boolean[grid.length][grid[0].length]; 
+
+void draw() {
+    background(255); 
+    
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            int x = j * cellSize;
+            int y = i * cellSize;
+            
+            if (revealed[i][j]) {
+                fill(200);
+                rect(x, y, cellSize, cellSize);
+                fill(0);
+                textAlign(CENTER, CENTER);
+                text(grid[i][j], x + cellSize / 2, y + cellSize / 2); 
+            } else {
+                fill(150);
+                rect(x, y, cellSize, cellSize); 
+            }
+        }
+    }
+    
+    if (waiting && millis() - showTimer > 1000) {
+      
+        if (grid[firstRow][firstCol] != grid[secondRow][secondCol]) {
+            revealed[firstRow][firstCol] = false;
+            revealed[secondRow][secondCol] = false;
+        }
+       
+        firstRow = -1;
+        firstCol = -1;
+        secondRow = -1;
+        secondCol = -1;
+        waiting = false;
     }
 }
-for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-        draw_lines(10 + j * 20, 10 + i * 40, grid[i][j]);
-    }
-}
 
-update(grid, -1);
+void mousePressed() {
+    int col = mouseX / cellSize; 
+    int row = mouseY / cellSize;
+    
+    if (row < grid.length && col < grid[0].length && !revealed[row][col] && !waiting) {
+        revealed[row][col] = true; 
+        
+        if (firstRow == -1 && firstCol == -1) {
+            firstRow = row;
+            firstCol = col;
+        } else {
+            secondRow = row;
+            secondCol = col; 
+            waiting = true;  
+            showTimer = millis(); 
