@@ -2,7 +2,6 @@ int[][] grid = {{1, 2, 3, 4},
                  {5, 6, 7, 8}, 
                  {1, 2, 3, 4}, 
                  {5, 6, 7, 8}};
-
 boolean[][] revealed;
 int cellSize = 100;
 int firstRow = -1, firstCol = -1;
@@ -11,11 +10,12 @@ boolean waiting = false;
 int showTimer = 0;
 
 void setup() {
-    size(400, 400); 
-    revealed = new boolean[grid.length][grid[0].length]; 
+    size(400, 400);
+    revealed = new boolean[grid.length][grid[0].length];
+}
 
 void draw() {
-    background(255); 
+    background(255);
     
     for (int i = 0; i < grid.length; i++) {
         for (int j = 0; j < grid[0].length; j++) {
@@ -27,21 +27,19 @@ void draw() {
                 rect(x, y, cellSize, cellSize);
                 fill(0);
                 textAlign(CENTER, CENTER);
-                text(grid[i][j], x + cellSize / 2, y + cellSize / 2); 
+                text(grid[i][j], x + cellSize / 2, y + cellSize / 2);
             } else {
                 fill(150);
-                rect(x, y, cellSize, cellSize); 
+                rect(x, y, cellSize, cellSize);
             }
         }
     }
     
     if (waiting && millis() - showTimer > 1000) {
-      
         if (grid[firstRow][firstCol] != grid[secondRow][secondCol]) {
             revealed[firstRow][firstCol] = false;
             revealed[secondRow][secondCol] = false;
         }
-       
         firstRow = -1;
         firstCol = -1;
         secondRow = -1;
@@ -51,17 +49,20 @@ void draw() {
 }
 
 void mousePressed() {
-    int col = mouseX / cellSize; 
+    int col = mouseX / cellSize;
     int row = mouseY / cellSize;
     
     if (row < grid.length && col < grid[0].length && !revealed[row][col] && !waiting) {
-        revealed[row][col] = true; 
+        revealed[row][col] = true;
         
         if (firstRow == -1 && firstCol == -1) {
             firstRow = row;
             firstCol = col;
         } else {
             secondRow = row;
-            secondCol = col; 
+            secondCol = col;
             waiting = true;  
-            showTimer = millis(); 
+            showTimer = millis();
+        }
+    }
+}
