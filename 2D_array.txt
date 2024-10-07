@@ -3,10 +3,7 @@ int[][] grid = {{1, 2, 1, 3},
                  {2, 1, 3, 4}};
 int rows = grid.length;  
 int cols = grid[0].length;
-  draw_lines(10 + j * w, 10 + i * h, grid[i][j]);
-void draw_lines(int x, int y, int n) {
-  draw_lines(10 + j * w, 10 + i * h, grid[i][j]);
-}
+
 void draw_lines(int x, int y, int n) {
     int i = 0;
     while (i < n) {
@@ -14,3 +11,10 @@ void draw_lines(int x, int y, int n) {
         i++;
     }
 }
+for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+        draw_lines(10 + j * 20, 10 + i * 40, grid[i][j]);
+    }
+}
+
+update(grid, -1);
