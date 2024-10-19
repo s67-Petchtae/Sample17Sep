@@ -6,6 +6,8 @@ boolean[][] revealed;
 int cellSize = 100;
 int firstRow = -1, firstCol = -1;
 int secondRow = -1, secondCol = -1;
+boolean waiting = false;
+int showTimer = 0;
 
 void setup() {
     size(400, 400);
