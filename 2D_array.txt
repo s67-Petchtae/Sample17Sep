@@ -48,3 +48,22 @@ void draw() {
         waiting = false;
     }
 }
+
+void mousePressed() {
+    int col = mouseX / cellSize;
+    int row = mouseY / cellSize;
+    
+    if (row < grid.length && col < grid[0].length && !revealed[row][col] && !waiting) {
+        revealed[row][col] = true;
+        
+        if (firstRow == -1 && firstCol == -1) {
+            firstRow = row;
+            firstCol = col;
+        } else {
+            secondRow = row;
+            secondCol = col;
+            waiting = true;  
+            showTimer = millis();
+        }
+    }
+}
