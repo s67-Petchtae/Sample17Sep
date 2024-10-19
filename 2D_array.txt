@@ -13,3 +13,38 @@ void setup() {
     size(400, 400);
     revealed = new boolean[grid.length][grid[0].length];
 }
+
+void draw() {
+    background(255);
+    
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[0].length; j++) {
+            int x = j * cellSize;
+            int y = i * cellSize;
+            
+            if (revealed[i][j]) {
+                fill(255);
+                rect(x, y, cellSize, cellSize);
+                fill(0);
+                textAlign(CENTER, CENTER);
+                text(grid[i][j], x + cellSize / 2, y + cellSize / 2);
+            } else {
+                fill(150);
+                rect(x, y, cellSize, cellSize);
+                textSize(50);
+            }
+        }
+    }
+    
+    if (waiting && millis() - showTimer > 1000) {
+        if (grid[firstRow][firstCol] != grid[secondRow][secondCol]) {
+            revealed[firstRow][firstCol] = false;
+            revealed[secondRow][secondCol] = false;
+        }
+        firstRow = -1;
+        firstCol = -1;
+        secondRow = -1;
+        secondCol = -1;
+        waiting = false;
+    }
+}
